@@ -22,14 +22,21 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven { url='https://jitpack.io' }
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     // https://mvnrepository.com/artifact/org.telegram/telegrambots-spring-boot-starter
+    implementation 'org.telegram:telegrambots:6.9.7.1'
     implementation 'org.telegram:telegrambots-spring-boot-starter:6.9.7.1'
+    implementation 'org.telegram:telegrambotsextensions:6.9.7.1'
+    implementation 'org.glassfish.jersey.core:jersey-client:3.1.1'
+    implementation 'org.glassfish.jersey.inject:jersey-hk2:3.1.1'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'

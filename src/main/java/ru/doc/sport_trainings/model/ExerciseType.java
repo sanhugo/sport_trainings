@@ -14,9 +14,6 @@ public class ExerciseType {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(nullable = false)
-    private Long tg_id;
-
-    @Column(nullable = false)
-    private String username;
+    @Column(nullable=false)
+    private String name;
 }

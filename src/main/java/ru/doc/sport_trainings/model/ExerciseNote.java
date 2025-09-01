@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Entity
@@ -14,7 +16,18 @@ public class ExerciseNote {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="user_id",nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="users_id",nullable = false)
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="exercise_types_id",nullable=false)
+    private ExerciseType type;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    private LocalDate date;
+
+    @Column(nullable=false)
+    private Integer times;
 }

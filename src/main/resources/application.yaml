@@ -1,14 +1,26 @@
-spring.application.name=sport_trainings
+spring:
+  application:
+    name:
+      sport_trainings
+  datasource:
+    url: jdbc:postgresql://localhost:5435/BOTdb
+    username: pguser
+    password: hugo4POS123
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
-#telegrambot:
-#  username:
-#
-#  token:
-#
-#  webhookpath:
-#
-#  adminId:
 
+server:
+  port: 8080
 
-
+telegram:
+  token: ${BOT_TOKEN}
+  username: ${BOT_NAME}
+  url: ${BOT_URL}
 
