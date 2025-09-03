@@ -32,7 +32,7 @@ public class TelegramFacade {
             boolean isNotBlocked = userService.checkUser(id,false);
             if (!isNotBlocked) {
             if (update.hasCallbackQuery()) {
-                return callbackHandler.execute(update);
+                return callbackHandler.work(update);
             } else {
                 Message message = update.getMessage();
                 if (message.getText().startsWith("/")) {

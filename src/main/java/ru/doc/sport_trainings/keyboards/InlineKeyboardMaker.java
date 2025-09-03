@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import ru.doc.sport_trainings.DTO.ExerciseTypeDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -13,10 +14,13 @@ public class InlineKeyboardMaker {
 
     public InlineKeyboardMarkup getExercises(List<ExerciseTypeDTO> dtos) {
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<InlineKeyboardButton> keyboard  = new ArrayList<>();
         for (ExerciseTypeDTO dto : dtos) {
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(dto.getName());
             button.setCallbackData(dto.getId().toString());
+            keyboard.add(button);
         }
+        return markup;
     }
 }

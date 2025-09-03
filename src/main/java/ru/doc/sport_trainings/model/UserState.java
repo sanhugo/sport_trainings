@@ -1,12 +1,19 @@
 package ru.doc.sport_trainings.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.RedisHash;
+import ru.doc.sport_trainings.bot.BotStatus;
 
-@Setter
-@Getter
-@RedisHash
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@RedisHash(timeToLive = 10*60L,value="Users")
 public class UserState {
-
+    @Id
+    private long id;
+    private BotStatus status;
+    private long exerciseId;
 }
