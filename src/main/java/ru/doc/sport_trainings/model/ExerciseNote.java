@@ -24,10 +24,10 @@ public class ExerciseNote {
     @JoinColumn(name="exercise_types_id",nullable=false)
     private ExerciseType type;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "dates")
     @Temporal(TemporalType.DATE)
     private LocalDate date;
 
     @Column(nullable=false)
-    private Integer times;
+    private Double times;
 }

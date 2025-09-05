@@ -8,7 +8,7 @@ spring:
     password: hugo4POS123
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     open-in-view: false
   data:
     redis:

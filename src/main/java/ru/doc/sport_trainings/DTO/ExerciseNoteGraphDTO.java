@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  * DTO for {@link ru.doc.sport_trainings.model.ExerciseNote}
@@ -12,8 +14,12 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ExerciseNoteAdditionDTO {
-    private Long userId;
-    private Long typeId;
+public class ExerciseNoteGraphDTO {
+    private LocalDate date;
     private Double times;
+
+    public ExerciseNoteGraphDTO(Date sqlDate, double times) {
+        this.date = sqlDate.toLocalDate();
+        this.times = times;
+    }
 }

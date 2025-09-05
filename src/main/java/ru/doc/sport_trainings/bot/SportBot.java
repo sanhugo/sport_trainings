@@ -8,8 +8,11 @@ import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import ru.doc.sport_trainings.handlers.TelegramFacade;
+
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -21,10 +24,6 @@ public class SportBot extends SpringWebhookBot {
 
     private TelegramFacade telegramFacade;
 
-    public SportBot(TelegramFacade telegramFacade, DefaultBotOptions options, SetWebhook setWebhook,String token) {
-        super(options, setWebhook,token);
-        this.telegramFacade = telegramFacade;
-    }
     public SportBot(TelegramFacade telegramFacade, SetWebhook setWebhook, String botToken) {
         super(setWebhook, botToken);
         this.telegramFacade = telegramFacade;
@@ -32,6 +31,10 @@ public class SportBot extends SpringWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        return telegramFacade.handleUpdate(update);
+        try {
+            return telegramFacade.handleUpdate(update,this);
+        } catch (TelegramApiException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

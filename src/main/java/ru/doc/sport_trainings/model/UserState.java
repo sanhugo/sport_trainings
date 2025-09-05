@@ -10,7 +10,7 @@ import ru.doc.sport_trainings.bot.BotStatus;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@RedisHash(timeToLive = 10*60L,value="Users")
+@RedisHash(value="Users")
 public class UserState {
     @Id
     private long id;

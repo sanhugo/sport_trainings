@@ -24,8 +24,8 @@ public class KeyboardFacade {
     public ReplyKeyboardMarkup menuKeyboard() {
         return keyboardMaker.menuKeyboard();
     }
-    public InlineKeyboardMarkup exerciseKeyboard(List<ExerciseTypeDTO> dto) {
-        return inlineKeyboardMaker.getExercises(dto);
+    public InlineKeyboardMarkup exerciseKeyboard() {
+        return inlineKeyboardMaker.getExercises();
     }
 
     public List<KeyboardRow> addUserControlButton(ReplyKeyboardMarkup rkm) {
