@@ -7,7 +7,7 @@ import ru.doc.sport_trainings.model.User;
 
 import java.util.Collection;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT u.isBlocked from User u where u.id=:id")
     boolean findByIdEquals(Long id);
 
