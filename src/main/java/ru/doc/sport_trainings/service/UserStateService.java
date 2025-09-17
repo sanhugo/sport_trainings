@@ -33,19 +33,9 @@ public class UserStateService {
         String key = "Users:"+id;
         redisTemplate.opsForHash().put(key,"status",status.name());
     }
-    public void setUserStatusAndExerciseId(Long id, BotStatus status,Long exerciseId)
-    {
-        String key = "Users:"+id;
-        Map<String,Object> update = new HashMap<>();
-        update.put("status",status.name());
-        update.put("exerciseId",exerciseId);
-        redisTemplate.opsForHash().putAll(key,update);
-    }
-
 
     public void addExerciseId(long userID, long exerciseID) {
         String key = "Users:"+userID;
-
         redisTemplate.opsForHash().put(key,"exerciseId",String.valueOf(exerciseID));
     }
 
