@@ -68,7 +68,7 @@ public class MessageHandler {
                 boolean checkExerciseid = stateService.checkExercise(update.getMessage().getChatId());
                 if (checkExerciseid)
                 {
-                    boolean checkFormat = checker.checkforNumber(update.getMessage().getText());
+                    boolean checkFormat = checker.checkForNumber(update.getMessage().getText());
                     if (checkFormat)
                     {
                         String num = update.getMessage().getText();

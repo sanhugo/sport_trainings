@@ -4,7 +4,7 @@
 
 **Backend:**
 - ***Java 21***
-- ***Spring Boot 3.5.5***
+- ***Spring Boot 3.5.7***
 
 
 **Databases:**
