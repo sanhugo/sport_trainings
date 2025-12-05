@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 @Component
 public class RegexChecker {
-    public boolean checkforNumber(String num)
+    public boolean checkForNumber(String num)
     {
         String num_correct = num.trim();
         if (num_correct.isBlank())
