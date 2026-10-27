@@ -2,16 +2,16 @@ package ru.doc.sport_trainings.service;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import ru.doc.sport_trainings.bot.BotStatus;
 import ru.doc.sport_trainings.model.UserState;
 import ru.doc.sport_trainings.repository.UserStateRepository;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
+@Slf4j
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserStateService {
@@ -25,7 +25,7 @@ public class UserStateService {
     public void newState(Long id, BotStatus status)
     {
         UserState s = new UserState(id,status,0);
-        System.out.println(s);
+        log.debug("New user state: {}", s);
         userStateRepository.save(s);
     }
     public void changeUserStatus(Long id, BotStatus status)
@@ -40,7 +40,11 @@ public class UserStateService {
     }
 
     public BotStatus getState(long userID) {
-        return BotStatus.valueOf(redisTemplate.opsForHash().get("Users:"+userID,"status").toString());
+        Object state = redisTemplate.opsForHash().get("Users:"+userID,"status");
+        if (state !=null) {
+            return BotStatus.valueOf(state.toString());
+        }
+        else return null;
     }
 
     public boolean checkExercise(Long chatId) {

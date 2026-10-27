@@ -12,7 +12,7 @@ public class HandlerFailure {
     public BotApiMethod<?> noUserInBase(Update update)
     {
         return SendMessage.builder()
-                .chatId(update.getMessage().getChatId())
+                .chatId(chatId(update))
                 .text("Вас нет в системе. Обратитесь к админу.")
                 .build();
     }
@@ -20,8 +20,17 @@ public class HandlerFailure {
     public BotApiMethod<?> blockedUserInBase(Update update)
     {
         return SendMessage.builder()
-                .chatId(update.getMessage().getChatId())
+                .chatId(chatId(update))
                 .text("Вы заблокированы в системе. Обратитесь к админу.")
                 .build();
+    }
+
+    // у callback-запроса нет update.getMessage(), чат берём из самого callback'а
+    private long chatId(Update update)
+    {
+        if (update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getFrom().getId();
+        }
+        return update.getMessage().getChatId();
     }
 }

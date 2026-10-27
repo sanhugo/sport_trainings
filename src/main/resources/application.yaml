@@ -5,11 +5,14 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5435/BOTdb
     username: pguser
-    password: hugo4POS123
+    password: ${POSTGRES_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: validate
     open-in-view: false
+  liquibase:
+    enabled: true
+    change-log: classpath:db_migrations/db.changelog-master.yaml
   data:
     redis:
       host: localhost

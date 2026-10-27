@@ -1,8 +1,8 @@
 package ru.doc.sport_trainings.handlers;
 
 import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.jfree.chart.JFreeChart;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 
+@Slf4j
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class CallbackHandler {
@@ -57,7 +59,7 @@ public class CallbackHandler {
             bot.execute(delete);
         }
         catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("Failed to delete message {} in chat {}", updateMessage, userID, e);
         }
         userStateService.addExerciseId(userID,exerciseID);
         String key = "Users:"+userID;
@@ -66,7 +68,7 @@ public class CallbackHandler {
         sendMessage.setChatId(update.getCallbackQuery().getMessage().getChatId());
         if (check.equals(BotStatus.GRAPH_WAITING))
         {
-            long exerciseId=Long.parseLong(redisTemplate.opsForHash().get(key,"exerciseId").toString());
+            long exerciseId=Long.parseLong(Objects.requireNonNull(redisTemplate.opsForHash().get(key, "exerciseId")).toString());
             List<ExerciseNoteGraphDTO> dto=exerciseService.getNotesByExerciseType(userID,exerciseId);
             if (dto.isEmpty())
             {

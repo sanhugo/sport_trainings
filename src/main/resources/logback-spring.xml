@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="sport_trainings"/>
+    <springProperty scope="context" name="LOKI_URL" source="loki.url"
+                    defaultValue="http://localhost:3100/loki/api/v1/push"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <!-- Включается SPRING_PROFILES_ACTIVE=loki (в docker-compose включён) -->
+    <springProfile name="loki">
+        <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+            <http>
+                <url>${LOKI_URL}</url>
+            </http>
+            <batch>
+                <!-- по умолчанию 60 с; для дашбордов отправляем чаще -->
+                <timeoutMs>2000</timeoutMs>
+            </batch>
+            <labels>
+                app = ${APP_NAME}
+                level = %level
+            </labels>
+            <message>
+                <!-- logfmt-friendly: в Grafana `| logfmt` вытащит type, update_id и т.д. -->
+                <pattern>logger=%logger{36} %msg%n%ex</pattern>
+            </message>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="LOKI"/>
+        </root>
+    </springProfile>
+</configuration>

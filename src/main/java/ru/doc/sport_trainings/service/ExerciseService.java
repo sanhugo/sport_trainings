@@ -8,7 +8,6 @@ import ru.doc.sport_trainings.model.ExerciseType;
 import ru.doc.sport_trainings.repository.ExerciseTypeRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -22,7 +21,10 @@ public class ExerciseService {
         return typeRepo.findAllDTOs();
     }
     public String getExerciseType(long userID) {
-        return typeRepo.findById(userID).get().getName();
+        ExerciseType type = typeRepo.findById(userID).orElseThrow(
+                IllegalArgumentException::new
+        );
+        return type.getName();
     }
     public boolean addExerciseType(String exerciseType) {
         String exerciseTypeName = exerciseType.trim().toLowerCase();
@@ -33,7 +35,7 @@ public class ExerciseService {
         }
         else {
             ExerciseType t =  new ExerciseType();
-            t.setName(exerciseType);
+            t.setName(exerciseTypeName);
             typeRepo.save(t);
             return true;
         }

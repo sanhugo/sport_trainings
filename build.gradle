@@ -37,6 +37,10 @@ dependencies {
     implementation 'org.glassfish.jersey.core:jersey-client:3.1.1'
     implementation 'org.glassfish.jersey.inject:jersey-hk2:3.1.1'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    // версия управляется BOM Spring Boot 3.5.7 (liquibase-core 4.31.x)
+    implementation 'org.liquibase:liquibase-core'
+    // отправка логов в Loki (активируется профилем "loki", см. logback-spring.xml)
+    implementation 'com.github.loki4j:loki-logback-appender:2.0.3'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'

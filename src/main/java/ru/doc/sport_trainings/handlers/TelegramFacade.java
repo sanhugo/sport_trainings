@@ -3,6 +3,7 @@ package ru.doc.sport_trainings.handlers;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -13,6 +14,7 @@ import ru.doc.sport_trainings.service.UserService;
 
 import java.io.IOException;
 
+@Slf4j
 @Setter
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -30,13 +32,16 @@ public class TelegramFacade {
         this.handlerFailure = handlerFailure;
     }
     public BotApiMethod<?> handleUpdate(Update update, SportBot bot) throws TelegramApiException, IOException {
-        System.out.println(update);
+        log.info("event=update_received type={} update_id={}", updateType(update), update.getUpdateId());
         long id;
         if (update.hasMessage() && update.getMessage().hasText()) {
             id = update.getMessage().getChatId();
         }
-        else {
+        else if (update.hasCallbackQuery()) {
             id = update.getCallbackQuery().getFrom().getId();
+        }
+        else {
+            return null;
         }
         boolean exists = userService.checkUser(id,true);
         if (exists) {
@@ -46,9 +51,9 @@ public class TelegramFacade {
                 return callbackHandler.work(update,bot);
             } else {
                 Message message = update.getMessage();
-                System.out.println(message.getText());
+                log.debug("Message text: {}", message.getText());
                 if (message.getText().startsWith("/")) {
-                    System.out.println("CHECKED COMMAND!");
+                    log.info("CHECKED_COMMAND");
                     return commandHandler.execute(update);
                 } else {
                     return messageHandler.execute(update);
@@ -63,6 +68,16 @@ public class TelegramFacade {
         {
             return handlerFailure.noUserInBase(update);
         }
+    }
+
+    private static String updateType(Update update) {
+        if (update.hasMessage()) {
+            return update.getMessage().hasText() ? "message" : "message_other";
+        }
+        if (update.hasCallbackQuery()) return "callback_query";
+        if (update.hasEditedMessage()) return "edited_message";
+        if (update.hasMyChatMember()) return "my_chat_member";
+        return "other";
     }
 }
 

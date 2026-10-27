@@ -2,6 +2,7 @@ package ru.doc.sport_trainings.handlers;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -13,6 +14,7 @@ import ru.doc.sport_trainings.keyboards.KeyboardFacade;
 import ru.doc.sport_trainings.service.UserService;
 import ru.doc.sport_trainings.service.UserStateService;
 
+@Slf4j
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CommandHandler {
@@ -35,7 +37,7 @@ public class CommandHandler {
                     .text("Добро пожаловать! Выберите пункт меню: ")
                     .build();
             uss.newState(update.getMessage().getChatId(), BotStatus.READY);
-            System.out.println(uss.getState(update.getMessage().getChatId()));
+            log.debug("State after /start: {}", uss.getState(update.getMessage().getChatId()));
             ReplyKeyboardMarkup rkm = keyboardFacade.menuKeyboard();
             if (userService.checkAdmin(message.getChatId()))
             {

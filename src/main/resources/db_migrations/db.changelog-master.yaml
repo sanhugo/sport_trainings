@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: db_migrations/001-init-schema.sql
+      relativeToChangelogFile: false

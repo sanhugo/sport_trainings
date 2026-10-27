@@ -2,6 +2,7 @@ package ru.doc.sport_trainings.handlers;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -16,6 +17,7 @@ import ru.doc.sport_trainings.service.ExerciseService;
 import ru.doc.sport_trainings.service.UserService;
 import ru.doc.sport_trainings.service.UserStateService;
 
+@Slf4j
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MessageHandler {
@@ -56,7 +58,7 @@ public class MessageHandler {
             case "Добавить запись":
                 sendMessage.setText("Выберите упражнение");
                 stateService.changeUserStatus(update.getMessage().getChatId(), BotStatus.EVENT_WAITING);
-                System.out.println(stateService.getState(update.getMessage().getChatId()));
+                log.debug("State after 'Добавить запись': {}", stateService.getState(update.getMessage().getChatId()));
                 sendMessage.setReplyMarkup(keyboard.exerciseKeyboard());
                 break;
             default: sendMessage.setText("Неверная команда. Выберите еще раз.");
